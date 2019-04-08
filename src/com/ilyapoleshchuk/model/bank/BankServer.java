@@ -12,11 +12,13 @@ public class BankServer {
     private final Bank bank;
     private final Set<BankContract> contracts;
     private final Map<BankCard, BankAccount> cardsWithAccounts;
+    private final Map<BankCard, String> passwords;
 
     public BankServer(Bank bank) {
         this.bank = bank;
         this.contracts = new HashSet<>();
         this.cardsWithAccounts = new HashMap<>();
+        this.passwords = new HashMap<>();
     }
 
     public Client registerPersonAsClient(Person person, ClientStatus status) {
@@ -70,7 +72,14 @@ public class BankServer {
         return money;
     }
 
-    public BankCard createBankCard(UUID bankContractId) {
+    public EnvelopeWithBankCardAndPassword createBankCard(UUID bankContractId) {
+        BankCard bankCard = createBankCardWithoutPassword(bankContractId);
+        String newPassword = generatePassword();
+        passwords.put(bankCard, newPassword);
+        return new EnvelopeWithBankCardAndPassword(bankCard, newPassword);
+    }
+
+    private BankCard createBankCardWithoutPassword(UUID bankContractId) {
         BankContract bankContract = findContractById(bankContractId);
         BankAccount bankAccount = bankContract.getBankAccount();
         if (cardsWithAccounts.containsValue(bankAccount)) {
@@ -86,6 +95,19 @@ public class BankServer {
             throw new IllegalStateException("No bank card with such id exists");
         }
         cardsWithAccounts.remove(bankCard);
+    }
+
+    public boolean validate(BankCard bankCard, String password) {
+        if (!cardsWithAccounts.containsKey(bankCard)) {
+            throw new IllegalStateException("Invalid bank card");
+        }
+        return passwords.get(bankCard).equals(password);
+    }
+
+    private String generatePassword() {
+        Random random = new Random();
+        int randomInt = random.nextInt((9999 - 1000) + 1) + 1000;
+        return Integer.toString(randomInt);
     }
 
     private BankContract findContractById(UUID id) {
