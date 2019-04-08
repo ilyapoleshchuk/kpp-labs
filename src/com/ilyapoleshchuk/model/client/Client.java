@@ -1,26 +1,22 @@
 package com.ilyapoleshchuk.model.client;
 
-import com.ilyapoleshchuk.model.common.Person;
-import com.ilyapoleshchuk.model.bank.BankAccount;
 import com.ilyapoleshchuk.model.bank.BankCard;
-import com.ilyapoleshchuk.model.contract.BankContract;
+import com.ilyapoleshchuk.model.common.Person;
+
+import java.util.UUID;
 
 abstract public class Client extends Person {
 
-    private final BankContract bankContract;
+    private final UUID bankContractId;
     private BankCard bankCard;
 
-    public Client(String firstName, String lastName, BankContract bankContract) {
+    public Client(String firstName, String lastName, UUID bankContractId) {
         super(firstName, lastName);
-        this.bankContract = bankContract;
+        this.bankContractId = bankContractId;
     }
 
-    public BankContract getBankContract() {
-        return bankContract;
-    }
-
-    public BankAccount getBankAccount() {
-        return bankContract.getBankAccount();
+    public UUID getBankContractId() {
+        return bankContractId;
     }
 
     public BankCard getBankCard() {

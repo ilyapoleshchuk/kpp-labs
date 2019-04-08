@@ -22,6 +22,19 @@ public class BankAccount {
         return money;
     }
 
+    public void addMoney(Money money) {
+        double current = this.money.getAmount();
+        money.setAmount(current + money.getAmount());
+    }
+
+    public void subtractMoney(Money money) {
+        double current = this.money.getAmount();
+        if (current < money.getAmount()) {
+            throw new IllegalStateException("There is no such amount");
+        }
+        money.setAmount(current - money.getAmount());
+    }
+
     public UUID getId() {
         return id;
     }

@@ -14,8 +14,13 @@ public class BankCard {
         this.id = UUID.randomUUID();
     }
 
+    public UUID getBankAccountId() {
+        return bankAccount.getId();
+    }
+
     public Money getAmount() {
-        return bankAccount.getMoney();
+        double currentAmount = bankAccount.getMoney().getAmount();
+        return new Money(currentAmount);
     }
 
     @Override

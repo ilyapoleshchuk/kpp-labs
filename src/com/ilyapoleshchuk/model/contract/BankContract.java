@@ -24,6 +24,10 @@ public class BankContract {
         return bankAccount;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Сontract between bank [" + bank.toString() + "] and client [" + person.toString() + "] #" + id;
