@@ -1,42 +1,47 @@
 package com.ilyapoleshchuk.model.client;
 
-import java.util.UUID;
+import com.ilyapoleshchuk.model.common.Person;
+import com.ilyapoleshchuk.model.bank.BankAccount;
+import com.ilyapoleshchuk.model.bank.BankCard;
+import com.ilyapoleshchuk.model.contract.BankContract;
 
-abstract public class Client {
+abstract public class Client extends Person {
 
-    private UUID id;
-    private String firstName;
-    private String lastName;
+    private final BankContract bankContract;
+    private BankCard bankCard;
 
-    public Client(String firstName, String lastName) {
-        setFirstName(firstName);
-        setLastName(lastName);
-        this.id = UUID.randomUUID();
+    public Client(String firstName, String lastName, BankContract bankContract) {
+        super(firstName, lastName);
+        this.bankContract = bankContract;
     }
 
-    public UUID getId() {
-        return id;
+    public BankContract getBankContract() {
+        return bankContract;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public BankAccount getBankAccount() {
+        return bankContract.getBankAccount();
     }
 
-    public void setFirstName(String firstName) {
-        if (firstName == null || firstName.isEmpty()) {
-            throw new IllegalArgumentException();
+    public BankCard getBankCard() {
+        return bankCard;
+    }
+
+    public boolean hasBankCard() {
+        return bankCard != null;
+    }
+
+    public void addBankCard(BankCard bankCard) {
+        if (this.bankCard != null) {
+            throw new IllegalStateException("Client cannot have more than one card");
         }
-        this.firstName = firstName;
+        this.bankCard = bankCard;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        if (lastName == null || lastName.isEmpty()) {
-            throw new IllegalArgumentException();
+    public void removeBankCard() {
+        if (this.bankCard == null) {
+            throw new IllegalStateException("Client does not have bank card");
         }
-        this.lastName = lastName;
+        this.bankCard = null;
     }
 }
