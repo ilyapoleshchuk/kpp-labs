@@ -20,6 +20,7 @@ public class CashMachine {
         boolean successful = bankServer.validate(bankCard, password);
         if (successful) {
             attemptsLeft = ATTEMPTS;
+            this.bankCard = bankCard;
             return true;
         } else if (attemptsLeft > 1) {
             attemptsLeft--;

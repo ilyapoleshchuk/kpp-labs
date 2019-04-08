@@ -1,10 +1,10 @@
 package com.ilyapoleshchuk.model.client;
 
-import com.ilyapoleshchuk.model.contract.BankContract;
+import java.util.UUID;
 
 public class RichClient extends Client {
 
-    public RichClient(String firstName, String lastName, BankContract bankContract) {
-        super(firstName, lastName, bankContract);
+    public RichClient(String firstName, String lastName, UUID bankContractId) {
+        super(firstName, lastName, bankContractId);
     }
 }

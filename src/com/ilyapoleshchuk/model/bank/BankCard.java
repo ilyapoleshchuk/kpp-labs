@@ -25,6 +25,6 @@ public class BankCard {
 
     @Override
     public String toString() {
-        return "Bank card #" + id.toString() + "of bank account #" + bankAccount.getId().toString();
+        return "Bank card #" + id.toString() + " of bank account #" + bankAccount.getId().toString();
     }
 }

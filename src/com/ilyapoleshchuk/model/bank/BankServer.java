@@ -33,11 +33,11 @@ public class BankServer {
         Client newClient = null;
         switch (status) {
             case RICH:
-                newClient = new RichClient(person.getFirstName(), person.getLastName(), newContract);
+                newClient = new RichClient(person.getFirstName(), person.getLastName(), newContract.getId());
             case POOR:
-                newClient = new PoorClient(person.getFirstName(), person.getLastName(), newContract);
+                newClient = new PoorClient(person.getFirstName(), person.getLastName(), newContract.getId());
             case STUDENT:
-                newClient = new Student(person.getFirstName(), person.getLastName(), newContract);
+                newClient = new Student(person.getFirstName(), person.getLastName(), newContract.getId());
         }
         return newClient;
     }
@@ -56,6 +56,7 @@ public class BankServer {
         }
         BankAccount bankAccount = cardsWithAccounts.get(bankCard);
         bankAccount.addMoney(money);
+        cardsWithAccounts.put(bankCard, bankAccount);
     }
 
     public Money cashOut(BankCard bankCard, double percentage) {
@@ -67,7 +68,7 @@ public class BankServer {
         }
         BankAccount bankAccount = cardsWithAccounts.get(bankCard);
         Money currentMoney = bankAccount.getMoney();
-        Money money = new Money(currentMoney.getAmount() * percentage / 100);
+        Money money = new Money(currentMoney.getAmount() * (100 - percentage) / 100);
         bankAccount.subtractMoney(money);
         return money;
     }

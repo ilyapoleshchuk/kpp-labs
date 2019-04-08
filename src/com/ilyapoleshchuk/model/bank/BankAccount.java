@@ -24,7 +24,7 @@ public class BankAccount {
 
     public void addMoney(Money money) {
         double current = this.money.getAmount();
-        money.setAmount(current + money.getAmount());
+        this.money.setAmount(current + money.getAmount());
     }
 
     public void subtractMoney(Money money) {

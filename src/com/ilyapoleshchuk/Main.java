@@ -9,6 +9,8 @@ import com.ilyapoleshchuk.model.client.ClientStatus;
 import com.ilyapoleshchuk.model.common.Money;
 import com.ilyapoleshchuk.model.common.Person;
 
+import java.util.Random;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -72,25 +74,38 @@ public class Main {
 
         boolean isTryWithWrongPasswordSuccessful =
             cashMachine.inputPassword(justStudentClient.getBankCard(), wrongPassword);
-        log("Is try with wrong password successful? - " + isTryWithWrongPasswordSuccessful);
+        log("Is try with " + wrongPassword + " password successful? - " + isTryWithWrongPasswordSuccessful);
 
         boolean isTryWithRightPasswordSuccessful =
             cashMachine.inputPassword(justStudentClient.getBankCard(), password);
-        log("Is try with right password successful? - " + isTryWithRightPasswordSuccessful);
+        log("Is try with " + password + " password successful? - " + isTryWithRightPasswordSuccessful);
 
         //add some cash
 
-        Money cash = new Money(188.9);
+        Money cash = new Money(random(100.0, 1000.0));
         log("Cash: " + cash.toString());
         cashMachine.addMoney(cash);
 
         //then take back some portion to test
 
-        Money money = cashMachine.cashOut(/* 11.7% */11.7);
+        double randomPercentage = random(10.0, 90.0);
+        log("Percentage to cash out = " + randomPercentage);
+
+        Money money = cashMachine.cashOut(/*in percents*/randomPercentage);
         log("Money from cash machine: " + money.toString());
     }
 
     private static void log(String message) {
         System.out.println(message);
+    }
+
+    private static double random(double from, double to) {
+        if (from >= to) {
+            throw new IllegalArgumentException("To must be greater than from");
+        }
+
+        Random random = new Random();
+        double randomBetween0and1 = random.nextDouble();
+        return (randomBetween0and1 * (to - from)) + from;
     }
 }
